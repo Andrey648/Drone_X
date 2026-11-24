@@ -1,256 +1,225 @@
 <!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>DroneX — Будущее в воздухе</title>
-  <link rel="icon" type="image/png" href="logo.png">
-<link rel="apple-touch-icon" href="logo.png">
-<meta property="og:title" content="DroneX — Будущее в воздухе">
-<meta property="og:description" content="Технологические FPV-дроны и собственные летательные системы DroneX.">
-<meta property="og:image" content="logo.png">
-<meta property="og:type" content="website">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="DroneX — Будущее в воздухе">
-<meta name="twitter:description" content="Технологические FPV-дроны и собственные летательные системы DroneX.">
-<meta name="twitter:image" content="logo.png">
-  <meta name="description" content="DroneX — технологический проект по разработке FPV-дронов и собственных летательных систем." />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>История России: квиз</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light;--bg:#eef1f6;--fg:#14233b;--mut:#4a5870;--card:#fff;--bd:#c5cee0;--acc:#1b4bd1;--accfg:#fff;--ok:#1d6b32;--okbg:#ddf1e2;--bad:#a8281c;--badbg:#fbe3df;--mark:#c0392b}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#0e1624;--fg:#e6ecf7;--mut:#a5b2c7;--card:#172236;--bd:#31405c;--acc:#8fb0ff;--accfg:#0e1624;--ok:#6fcf8c;--okbg:#1b3a27;--bad:#ff8f80;--badbg:#4a2420;--mark:#ff8f80}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#0e1624;--fg:#e6ecf7;--mut:#a5b2c7;--card:#172236;--bd:#31405c;--acc:#8fb0ff;--accfg:#0e1624;--ok:#6fcf8c;--okbg:#1b3a27;--bad:#ff8f80;--badbg:#4a2420;--mark:#ff8f80}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--fg);font:17px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:640px;margin:0 auto;padding:24px 16px 40px}
+h1{font:700 26px/1.2 Georgia,"Times New Roman",serif;margin:0 0 4px}
+.sub{color:var(--mut);margin:0 0 20px;font-size:15px}
+#prog{color:var(--mut);font-size:15px}
+.track{height:4px;background:var(--bd);border-radius:2px;margin:6px 0 20px}
+#bar{height:100%;width:0;background:var(--acc);border-radius:2px;transition:width .3s}
+.qcard{background:var(--card);border-left:3px solid var(--mark);border-radius:2px 8px 8px 2px;padding:18px 18px 18px 20px;margin-bottom:16px}
+h2{font:600 21px/1.4 Georgia,"Times New Roman",serif;margin:0}
+#opts{display:grid;gap:10px}
+.opt{font:inherit;text-align:left;padding:13px 14px;border:1.5px solid var(--bd);background:var(--card);color:var(--fg);border-radius:8px;cursor:pointer}
+.opt:hover:not(:disabled){border-color:var(--acc)}
+.opt:active:not(:disabled){transform:scale(.99)}
+.opt:disabled{cursor:default}
+.opt:disabled:not(.ok):not(.bad){opacity:.7}
+.opt.ok{background:var(--okbg);border-color:var(--ok)}
+.opt.ok::before{content:"✓ ";font-weight:700}
+.opt.bad{background:var(--badbg);border-color:var(--bad)}
+.opt.bad::before{content:"✗ ";font-weight:700}
+:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+#fb{min-height:1.5em;margin:14px 0 8px;font-weight:600}
+.primary{font:inherit;font-weight:600;background:var(--acc);color:var(--accfg);border:0;border-radius:8px;padding:12px 22px;cursor:pointer}
+.primary:hover{filter:brightness(1.1)}
+.primary:active{transform:scale(.98)}
+[hidden]{display:none!important}
+.field{display:block;margin:0 0 14px}
+.field span{display:block;margin-bottom:4px;font-weight:600}
+input{font:inherit;width:100%;padding:12px 14px;border:1.5px solid var(--bd);border-radius:8px;background:var(--card);color:var(--fg)}
+input:hover{border-color:var(--acc)}
+input[aria-invalid="true"]{border-color:var(--bad)}
+.err{color:var(--bad);min-height:1.5em;margin:0 0 10px;font-weight:600}
+.note{color:var(--mut);font-size:15px;margin:0 0 16px}
+.who{font:600 19px/1.3 Georgia,"Times New Roman",serif;margin:0 0 10px}
+.btns{display:flex;gap:10px;flex-wrap:wrap}
+.ghost{font:inherit;font-weight:600;background:none;color:var(--fg);border:1.5px solid var(--bd);border-radius:8px;padding:12px 22px;cursor:pointer}
+.ghost:hover{border-color:var(--acc)}
+.ghost:active{transform:scale(.98)}
+#score{margin:0 0 8px}
+#review{margin-top:12px}
+.row{background:var(--card);border-left:3px solid var(--bd);border-radius:2px 8px 8px 2px;padding:12px 14px;margin-bottom:10px}
+.row.ok{border-left-color:var(--ok)}
+.row.bad{border-left-color:var(--bad)}
+.row b{display:block;font-weight:600}
+.row span{display:block;margin-top:4px}
+.row .good{color:var(--mut)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
 </head>
 <body>
-  <div class="noise"></div>
-  <header class="topbar" id="topbar">
-    <a class="brand" href="#top" aria-label="DroneX home">DRONEX<span>✦</span></a>
-    <nav class="nav">
-      <a href="#technology">Технологии</a>
-      <a href="#models">Модели</a>
-      <a href="#project">Проект</a>
-    </nav>
-    <a class="nav-cta" data-tg-link href="#">Telegram ↗</a>
-  </header>
-
-  <main id="top">
-    <section class="hero section-pad">
-<section class="hero section-pad">
-  <div class="hero-glow"></div>
-  <div class="hero-grid"></div>
-
-<div class="hero-center reveal">
-  <div class="hero-title">
-    <span>DRONE</span><strong>X</strong>
-  </div>
-
-  <div class="hero-subtitle">
-    NEXT-GENERATION AERIAL SYSTEMS
-  </div>
-</div>
-
-  <div class="hero-orbit orbit-a"></div>
-  <div class="hero-orbit orbit-b"></div>
-
-  <div class="hero-drone-shell">
-    <div class="drone-glow"></div>
-
-    <div class="drone-placeholder" aria-label="Drone render placeholder">
-      <div class="drone-crosshair"></div>
-      <div class="drone-body"></div>
-
-      <div class="motor motor-1"></div>
-      <div class="motor motor-2"></div>
-      <div class="motor motor-3"></div>
-      <div class="motor motor-4"></div>
-
-      <div class="arm arm-1"></div>
-      <div class="arm arm-2"></div>
-      <div class="arm arm-3"></div>
-      <div class="arm arm-4"></div>
-    </div>
-  </div>
-
-  <div class="scroll-hint">
-    <span></span>
-    Прокрутите, чтобы исследовать
-  </div>
+<main>
+<h1>История России</h1>
+<p class="sub">Контрольная работа. Вопросы и ответы идут в случайном порядке, попытка только одна.</p>
+<section id="gate">
+<form id="gform" novalidate>
+<label class="field"><span>Имя</span><input id="fn" autocomplete="given-name" maxlength="40"></label>
+<label class="field"><span>Фамилия</span><input id="ln" autocomplete="family-name" maxlength="40"></label>
+<p id="gerr" class="err" role="alert"></p>
+<button class="primary" type="submit">Продолжить</button>
+</form>
+<p id="gwarn" class="note" hidden></p>
 </section>
-    </section>
-
-    <section class="intro section-pad">
-      <div class="section-label">01 / THE IDEA</div>
-      <div class="split">
-        <h2>Не просто магазин.<br><span>Технологический проект.</span></h2>
-        <p>Сайт DroneX становится лицом проекта: здесь мы показываем инженерный подход, продукты и собственную разработку. Покупка и конфигурация остаются в Telegram-боте — без регистрации, кабинетов и лишней формы.</p>
-      </div>
-    </section>
-
-    <section class="assembly" id="technology">
-      <div class="assembly-sticky">
-        <div class="assembly-bg"></div>
-        <div class="assembly-copy">
-          <div class="section-label" id="assemblyLabel">02 / BUILD SEQUENCE</div>
-          <div class="assembly-step"><span id="stepNumber">01</span><h2 id="stepTitle">Frame</h2><p id="stepText">The structure comes first.</p></div>
-        </div>
-        <div class="assembly-stage" id="assemblyStage">
-          <div class="component comp-frame" data-step="1">FRAME</div>
-          <div class="component comp-controller" data-step="2">FC</div>
-          <div class="component comp-motors" data-step="3"><i></i><i></i><i></i><i></i><b>MOTORS</b></div>
-          <div class="component comp-power" data-step="4">POWER</div>
-          <div class="component comp-gps" data-step="5">GPS</div>
-          <div class="component comp-camera" data-step="6">CAM</div>
-          <div class="component comp-top" data-step="7">SYSTEM</div>
-          <div class="assembly-complete">DRONEX</div>
-        </div>
-        <div class="assembly-progress"><span id="progressBar"></span></div>
-      </div>
-    </section>
-
-    <section class="technology section-pad" id="technology-section">
-
-  <div class="section-label">
-    03 / TECHNOLOGY
-  </div>
-
-  <div class="tech-grid">
-
-    <a class="tech-card tech-link" href="flight.html">
-      <span>01</span>
-
-      <h3>
-        Управление полётом
-      </h3>
-
-      <p>
-        Контур управления рассчитан на стабильный FPV-полёт
-        и дальнейшее развитие собственной прошивки.
-      </p>
-
-      <div class="tech-card-arrow">↗</div>
-    </a>
-
-
-    <a class="tech-card tech-link" href="navigation.html">
-      <span>02</span>
-
-      <h3>
-        Навигация
-      </h3>
-
-      <p>
-        GPS и навигационный слой для позиционирования,
-        телеметрии и автономных сценариев.
-      </p>
-
-      <div class="tech-card-arrow">↗</div>
-    </a>
-
-
-    <a class="tech-card tech-link" href="vision.html">
-      <span>03</span>
-
-      <h3>
-        Визуальный канал
-      </h3>
-
-      <p>
-        FPV-камера как основной канал визуального управления
-        и контроля полёта.
-      </p>
-
-      <div class="tech-card-arrow">↗</div>
-    </a>
-
-
-    <a class="tech-card tech-link" href="power.html">
-      <span>04</span>
-
-      <h3>
-        Силовая система
-      </h3>
-
-      <p>
-        Силовая система подбирается как единый комплекс:
-        тяга, питание, вес и время полёта.
-      </p>
-
-      <div class="tech-card-arrow">↗</div>
-    </a>
-
-  </div>
-
+<section id="confirm" hidden>
+<p class="note">Проверьте данные. После старта пройти квиз повторно нельзя.</p>
+<p id="who" class="who"></p>
+<div class="btns"><button id="go" class="primary">Начать квиз</button><button id="fix" class="ghost">Исправить</button></div>
 </section>
-
-    <section class="models section-pad" id="models">
-      <div class="section-label">04 / THE LINEUP</div>
-      <div class="models-head split"><h2>Три модели.<br><span>Одна система.</span></h2><p>Три характера. Одна экосистема DroneX.</p></div>
-      <div class="model-grid">
-        <article class="model-card">
-        <div class="model-art">
-  <img src="images/whoop.jpg" alt="DroneX WHOOP">
-</div>
-          <div class="model-copy"><div><h3>WHOOP</h3><p>Компактный FPV</p></div><a class="button button-ghost model-buy" data-product="whoop" data-tg-link href="#">Купить ↗</a></div>
-        </article>
-        <article class="model-card">
-         <div class="model-art">
-  <img src="images/5inch.jpg" alt="DroneX 5 inch">
-</div>
-          <div class="model-copy"><div><h3>5 дюймов</h3><p>Производительный FPV</p></div><a class="button button-ghost model-buy" data-product="5inch" data-tg-link href="#">Купить ↗</a></div>
-        </article>
-        <article class="model-card featured">
-         <div class="model-art">
-  <img src="images/dronex.jpg" alt="DroneX">
-</div>
-          <div class="model-copy"><div><h3>DRONEX</h3><p>Собственная разработка</p></div><a class="button button-solid model-buy" data-product="dronex" data-tg-link href="#">Купить ↗</a></div>
-        </article>
-      </div>
-    </section>
-
-    <section class="build-cta section-pad">
-      <div class="build-glow"></div>
-      <div class="section-label">05 / CONFIGURE</div>
-      <div class="build-content">
-        <h2>Соберите свой<br><span>DroneX.</span></h2>
-        <p>Выбери класс дрона и продолжи конфигурацию в Telegram. Никакой регистрации — только готовый сценарий заказа.</p>
-        <a class="button button-solid button-large" data-build-link data-tg-link href="#">Собрать в Telegram ↗</a>
-      </div>
-    </section>
-
-    <section class="project section-pad" id="project">
-      <div class="section-label">06 / THE PROJECT</div>
-      <div class="project-copy"><h2>Создан<br><span>с нуля.</span></h2><p>DroneX объединяет разработку аппаратной части, навигации, управления и собственного продукта. Эта страница — точка входа в проект. Telegram — точка действия.</p></div>
-    </section>
-
-    <section class="final-cta">
-  <div class="final-grid"></div>
-
-  <div class="final-copy">
-    <div class="eyebrow">DRONEX</div>
-
-    <h2>
-      Будущее<br>
-      уже в воздухе.
-    </h2>
-
-    <a
-      class="button button-solid button-large"
-      data-tg-link
-      href="#"
-    >
-      Открыть Telegram ↗
-    </a>
-  </div>
-
-  <div class="final-photo">
-    <img
-      src="images/dronex1.jpg"
-      alt="DroneX"
-    >
-  </div>
+<section id="quiz" hidden>
+<div id="prog"></div>
+<div class="track"><div id="bar"></div></div>
+<div class="qcard"><h2 id="q"></h2></div>
+<div id="opts"></div>
+<p id="fb" aria-live="polite"></p>
+<button id="next" class="primary" hidden>Далее</button>
 </section>
-  </main>
-
-  <footer class="footer"><span>© DroneX</span><span>Built to fly.</span></footer>
-  <script src="app.js"></script>
+<section id="result" hidden>
+<p id="rwho" class="who"></p>
+<h2 id="score"></h2>
+<p id="rnote" class="note" hidden></p>
+<div id="review"></div>
+</section>
+</main>
+<script>
+// Каждая запись: вопрос, верный ответ, затем неверные варианты.
+const Q=[
+["Какие из перечисленных материалов относятся к историческим источникам?","Летописи, археологические находки и устные предания","Только летописи и государственные документы","Только сохранившиеся здания","Только современные учебники истории"],
+["Почему исторические источники нельзя считать абсолютно объективным отражением прошлого?","На их содержание влияли взгляды и интересы автора","Они всегда создавались спустя несколько столетий","Они не содержат сведений о реальных событиях","Они создавались исключительно для будущих историков"],
+["Какой метод позволяет историку наиболее надёжно проверить достоверность исторического источника?","Сравнение источника с другими независимыми свидетельствами","Изучение только внешнего вида документа","Принятие авторского описания за истину","Определение возраста документа без анализа содержания"],
+["Какой фактор сыграл важную роль в формировании единого Древнерусского государства?","Развитие торговых путей и необходимость политического объединения","Отказ восточных славян от торговли","Полное исчезновение племенных различий","Создание единой армии иностранными государствами"],
+["Кем была княгиня Ольга в истории Древней Руси?","Правительницей Киевской Руси при малолетнем сыне Святославе","Женой князя Владимира, крестившего Русь","Первой женщиной, ставшей русской царицей","Дочерью князя Ярослава Мудрого"],
+["Что, согласно легенде, князь Олег прибил к воротам Царьграда?","Свой щит","Меч","Княжеский флаг","Подкову"],
+["Как княгиня Ольга, согласно летописному преданию, отомстила древлянам за убийство своего мужа Игоря?","Наказала древлянских послов и сожгла Искоростень","Заключила с ними военный союз","Отказалась от княжеской власти","Передала древлянам управление Киевом"],
+["В каком году и при каком князе произошло Крещение Руси?","988 год, князь Владимир","882 год, князь Олег","945 год, князь Игорь","1019 год, Ярослав Мудрый"],
+["Какое наиболее значимое последствие имело принятие христианства при князе Владимире в 988 году?","Укрепление международных связей и культурного единства государства","Немедленное прекращение всех междоусобных конфликтов","Полное прекращение влияния Византии","Ликвидация княжеской власти и создание республики"],
+["В каком городе погиб царевич Дмитрий в 1591 году?","Углич","Ярославль","Тверь","Кострома"],
+["В каком году пресеклась московская царская линия Рюриковичей и кто был её последним представителем на престоле?","1598 год, Фёдор Иоаннович","1584 год, Иван IV Грозный","1605 год, Борис Годунов","1613 год, Михаил Романов"],
+["Кто был избран царём в 1598 году после смерти Фёдора Иоанновича?","Борис Годунов","Василий Шуйский","Владислав Сигизмундович","Михаил Романов"],
+["Сколько основных самозванцев, известных как Лжедмитрии, появилось в Смутное время?","Три","Два","Пять","Семь"],
+["Почему самозванцам в Смутное время удавалось находить поддержку среди населения?","Недовольство властью, голод и вера в спасение царевича Дмитрия способствовали поддержке самозванцев","Все самозванцы действительно были потомками Ивана Грозного","Население полностью поддерживало действующую власть","Самозванцы никогда не пользовались поддержкой населения"],
+["Какой самозванец был убит в Москве в 1606 году?","Лжедмитрий I","Лжедмитрий II (Тушинский вор)","Иван Болотников","Лжедмитрий III"],
+["Почему Смутное время начала XVII века представляло собой системный кризис российского государства?","Совпали династический, социально-экономический и политический кризисы, а также иностранная интервенция","Кризис ограничивался исключительно борьбой за престол","Главной причиной стало исключительно распространение новых религиозных идей","Кризис возник только из-за внешнего нападения на Россию"],
+["Что такое «Семибоярщина»?","Правительство из семи бояр, пришедшее к власти в 1610 году","Союз семи русских княжеств против Польши","Военный союз семи иностранных государств","Народное ополчение, защищавшее Москву"],
+["Почему приглашение польского королевича Владислава на русский престол вызвало недовольство значительной части населения?","Возникла угроза потери самостоятельности государства, а в Москве находились польские войска","Владислав отказался от всех прав на престол","Он собирался перенести столицу в Новгород","Он запретил торговлю с европейскими странами"],
+["Кто возглавил Второе народное ополчение?","Кузьма Минин и Дмитрий Пожарский","Иван Болотников и Фёдор Мстиславский","Прокопий Ляпунов и Иван Заруцкий","Михаил Скопин-Шуйский и Василий Голицын"],
+["В каком году Второе народное ополчение освободило Москву от польско-литовского гарнизона?","1612 год","1605 год","1610 год","1613 год"]
+];
+const $=id=>document.getElementById(id);
+// Fisher-Yates: новый порядок при каждом вызове.
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const ids=['gate','confirm','quiz','result'];
+const view=n=>ids.forEach(x=>{$(x).hidden=x!==n});
+const norm=s=>s.trim().replace(/\s+/g,' ').toLowerCase().replace(/ё/g,'е');
+const NAME=/^[A-Za-zА-Яа-яЁё]{2,}(?:[-' ’][A-Za-zА-Яа-яЁё]+)*$/;
+const lockKey=p=>'quiz-attempt:'+norm(p.fn)+'|'+norm(p.ln);
+const store={
+  get(k){try{const v=localStorage.getItem(k);return v?JSON.parse(v):null}catch(e){return null}},
+  set(k,v){try{localStorage.setItem(k,JSON.stringify(v));return true}catch(e){return false}}
+};
+let deck,i,score,log,who;
+function start(){
+  deck=shuffle(Q).map(r=>({q:r[0],a:r[1],o:shuffle(r.slice(1))}));
+  i=0;score=0;log=[];
+  view('quiz');
+  show();
+}
+function show(){
+  if(i>=deck.length)return end();
+  const d=deck[i];
+  $('prog').textContent='Вопрос '+(i+1)+' из '+deck.length;
+  $('bar').style.width=(i/deck.length*100)+'%';
+  $('q').textContent=d.q;
+  $('fb').textContent='';
+  $('next').hidden=true;
+  const box=$('opts');box.innerHTML='';
+  d.o.forEach(t=>{
+    const b=document.createElement('button');
+    b.className='opt';b.textContent=t;
+    b.onclick=()=>pick(b,t);
+    box.appendChild(b);
+  });
+}
+function pick(b,t){
+  const d=deck[i],ok=t===d.a;
+  document.querySelectorAll('.opt').forEach(x=>{x.disabled=true;if(x.textContent===d.a)x.classList.add('ok')});
+  if(ok){score++}else{b.classList.add('bad')}
+  log.push({q:d.q,c:t,a:d.a,ok});
+  $('fb').textContent=ok?'Верно!':'Неверно. Правильный ответ отмечен галочкой.';
+  $('bar').style.width=((i+1)/deck.length*100)+'%';
+  $('next').textContent=i===deck.length-1?'Показать результат':'Далее';
+  $('next').hidden=false;
+  $('next').focus();
+}
+function end(){
+  const rec={fn:who.fn,ln:who.ln,done:true,score,total:deck.length,log};
+  store.set(lockKey(who),rec);
+  showResult(rec,false);
+}
+function showResult(rec,repeat){
+  view('result');
+  $('rwho').textContent=rec.fn+' '+rec.ln;
+  const n=$('rnote'),r=$('review');
+  r.innerHTML='';
+  n.textContent='Попытка уже использована, пройти квиз повторно нельзя.';
+  if(!rec.done){
+    $('score').textContent='Квиз не завершён';
+    n.hidden=false;
+    return;
+  }
+  $('score').textContent='Результат: '+rec.score+' из '+rec.total;
+  n.hidden=!repeat;
+  rec.log.forEach((x,k)=>{
+    const d=document.createElement('div');d.className='row '+(x.ok?'ok':'bad');
+    const b=document.createElement('b');b.textContent=(k+1)+'. '+x.q;
+    const s=document.createElement('span');s.textContent=(x.ok?'✓ ':'✗ ')+'Ваш ответ: '+x.c;
+    d.append(b,s);
+    if(!x.ok){const g=document.createElement('span');g.className='good';g.textContent='Верный ответ: '+x.a;d.append(g)}
+    r.appendChild(d);
+  });
+}
+$('next').onclick=()=>{i++;show()};
+$('gform').onsubmit=e=>{
+  e.preventDefault();
+  const fn=$('fn').value.trim().replace(/\s+/g,' '),ln=$('ln').value.trim().replace(/\s+/g,' ');
+  const bad=[];
+  if(!NAME.test(fn))bad.push('fn');
+  if(!NAME.test(ln))bad.push('ln');
+  $('fn').setAttribute('aria-invalid',bad.includes('fn'));
+  $('ln').setAttribute('aria-invalid',bad.includes('ln'));
+  if(bad.length){
+    $('gerr').textContent='Введите имя и фамилию буквами, минимум две буквы в каждом поле.';
+    $(bad[0]).focus();
+    return;
+  }
+  $('gerr').textContent='';
+  who={fn,ln};
+  const old=store.get(lockKey(who));
+  if(old){showResult(old,true);return}
+  $('who').textContent=fn+' '+ln;
+  view('confirm');
+};
+$('fix').onclick=()=>view('gate');
+$('go').onclick=()=>{
+  const old=store.get(lockKey(who));
+  if(old){showResult(old,true);return}
+  store.set(lockKey(who),{fn:who.fn,ln:who.ln,done:false});
+  start();
+};
+view('gate');
+if(!store.set('quiz-probe',1)){
+  $('gwarn').textContent='В этом браузере нельзя сохранить отметку о попытке, поэтому ограничение здесь не сработает.';
+  $('gwarn').hidden=false;
+}
+</script>
 </body>
 </html>
