@@ -54,19 +54,35 @@ input[aria-invalid="true"]{border-color:var(--bad)}
 .row b{display:block;font-weight:600}
 .row span{display:block;margin-top:4px}
 .row .good{color:var(--mut)}
+.sw{display:flex;align-items:center;margin:0 0 12px;font-weight:600}
+.sw input{width:20px;height:20px;padding:0;margin:0 10px 0 0;accent-color:var(--acc)}
+.tw{overflow-x:auto;margin-bottom:16px}
+table{width:100%;border-collapse:collapse;background:var(--card);font-size:16px}
+th,td{padding:10px 12px;border-bottom:1px solid var(--bd);text-align:left;vertical-align:top}
+th{font-weight:600;color:var(--mut)}
+td .ghost{padding:6px 12px;margin:0 6px 6px 0}
+td .row{background:var(--bg);margin:0 0 8px}
+h3{font:600 18px/1.3 Georgia,"Times New Roman",serif;margin:24px 0 10px}
+#cprog{color:var(--mut);font-size:15px}
+.card{display:flex;flex-direction:column;justify-content:center;gap:10px;width:100%;min-height:220px;padding:24px;margin:12px 0 8px;font:inherit;text-align:left;color:var(--fg);background:var(--card);border:1.5px solid var(--bd);border-left:3px solid var(--mark);border-radius:2px 8px 8px 2px;cursor:pointer}
+.card:hover{border-color:var(--acc);border-left-color:var(--mark)}
+.card .lbl{color:var(--mut);font-size:15px}
+.card .txt{font:600 22px/1.4 Georgia,"Times New Roman",serif}
+.card.back,.card.back:hover{background:var(--okbg);border-color:var(--ok)}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
 <body>
 <main>
-<h1>История России</h1>
-<p class="sub">Контрольная работа. Вопросы и ответы идут в случайном порядке, попытка только одна.</p>
+<h1 id="h1">Контрольная работа по истории России</h1>
+<p class="sub">Квиз (одна попытка) и карточки для повторения. Вопросы и ответы идут в случайном порядке.</p>
+<p><button id="admbtn" class="ghost">Админка</button></p>
 <section id="gate">
 <form id="gform" novalidate>
 <label class="field"><span>Имя</span><input id="fn" autocomplete="given-name" maxlength="40"></label>
 <label class="field"><span>Фамилия</span><input id="ln" autocomplete="family-name" maxlength="40"></label>
 <p id="gerr" class="err" role="alert"></p>
-<button class="primary" type="submit">Продолжить</button>
+<div class="btns"><button class="primary" type="submit">Пройти квиз</button><button type="button" id="cardsbtn" class="ghost">Учить карточками</button></div>
 </form>
 <p id="gwarn" class="note" hidden></p>
 </section>
@@ -74,6 +90,45 @@ input[aria-invalid="true"]{border-color:var(--bad)}
 <p class="note">Проверьте данные. После старта пройти квиз повторно нельзя.</p>
 <p id="who" class="who"></p>
 <div class="btns"><button id="go" class="primary">Начать квиз</button><button id="fix" class="ghost">Исправить</button></div>
+</section>
+<section id="cards" hidden>
+<div id="cprog"></div>
+<button id="card" class="card" aria-live="polite"><span id="clbl" class="lbl"></span><span id="ctxt" class="txt"></span></button>
+<p class="note">Нажмите на карточку, чтобы перевернуть её.</p>
+<div class="btns"><button id="cprev" class="ghost">Назад</button><button id="cnext" class="primary">Дальше</button><button id="cshuf" class="ghost">Перемешать</button><button id="cexit" class="ghost">Выйти</button></div>
+</section>
+<section id="lock" hidden>
+<h2 id="lt">Вход в админку</h2>
+<form id="lform" novalidate>
+<label class="field"><span>Пароль</span><input id="lp" type="password" autocomplete="current-password"></label>
+<p id="lerr" class="err" role="alert"></p>
+<div class="btns"><button class="primary" type="submit">Войти</button><button type="button" id="lcancel" class="ghost">Назад</button></div>
+</form>
+</section>
+<section id="admin" hidden>
+<h2>Админка</h2>
+<label class="sw"><input type="checkbox" id="open"><span>Квиз открыт для прохождения</span></label>
+<label class="sw"><input type="checkbox" id="cardson"><span>Карточки доступны участникам</span></label>
+<label class="sw"><input type="checkbox" id="builtin"><span>Использовать встроенные вопросы по истории</span></label>
+<p id="astat" class="note" role="status"></p>
+<h3>Работа</h3>
+<label class="field"><span>Название работы</span><input id="wt" maxlength="80"></label>
+<button id="wsave" type="button" class="ghost">Сохранить название</button>
+<h3>Вопросы</h3>
+<p id="qcount" class="note"></p>
+<form id="qform" novalidate>
+<label class="field"><span>Вопрос</span><input id="nq" maxlength="300"></label>
+<label class="field"><span>Верный ответ</span><input id="na" maxlength="200"></label>
+<label class="field"><span>Неверный ответ 1</span><input id="nw1" maxlength="200"></label>
+<label class="field"><span>Неверный ответ 2 (необязательно)</span><input id="nw2" maxlength="200"></label>
+<label class="field"><span>Неверный ответ 3 (необязательно)</span><input id="nw3" maxlength="200"></label>
+<p id="qerr" class="err" role="alert"></p>
+<button class="primary" type="submit">Добавить вопрос</button>
+</form>
+<div id="qlist"></div>
+<h3>Результаты</h3>
+<div id="alist"></div>
+<button id="aclose" class="ghost">Закрыть админку</button>
 </section>
 <section id="quiz" hidden>
 <div id="prog"></div>
@@ -117,18 +172,79 @@ const Q=[
 const $=id=>document.getElementById(id);
 // Fisher-Yates: новый порядок при каждом вызове.
 const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
-const ids=['gate','confirm','quiz','result'];
+const ids=['gate','confirm','quiz','result','admin','cards','lock'];
 const view=n=>ids.forEach(x=>{$(x).hidden=x!==n});
 const norm=s=>s.trim().replace(/\s+/g,' ').toLowerCase().replace(/ё/g,'е');
 const NAME=/^[A-Za-zА-Яа-яЁё]{2,}(?:[-' ’][A-Za-zА-Яа-яЁё]+)*$/;
-const lockKey=p=>'quiz-attempt:'+norm(p.fn)+'|'+norm(p.ln);
+const lockKey=p=>'quiz-attempt:'+wkey()+':'+norm(p.fn)+'|'+norm(p.ln);
 const store={
   get(k){try{const v=localStorage.getItem(k);return v?JSON.parse(v):null}catch(e){return null}},
   set(k,v){try{localStorage.setItem(k,JSON.stringify(v));return true}catch(e){return false}}
 };
 let deck,i,score,log,who;
+let db=null,uid=null,admin=false,unlocked=false,cfg={},custom=[],chain=Promise.resolve();
+// Проверка пароля админки прямо в файле: хранится только соль и хеш SHA-256.
+const PW_SALT='48f02374865e7b43',PW_HASH='378d3d60d3e9c3cc420ff8e14df724d5581adb76d5dec4478dfb9ea76911d3cd';
+// Работа = название, которое задаёт админ; у каждой работы своя попытка и свои результаты.
+const DEF='Контрольная работа по истории России';
+const h32=s=>{let h=5381;for(const c of s)h=(h*33^c.codePointAt(0))>>>0;return h.toString(36)};
+const workTitle=()=>(cfg.work||DEF).trim();
+const wkey=()=>'w'+h32(workTitle());
+const setTitle=()=>{$('h1').textContent=workTitle()};
+const sha=async s=>{
+  const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));
+  return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('');
+};
+let cdeck=[],ci=0,flip=false;
+async function loadCfg(){
+  if(!db)return;
+  try{const s=await db.doc('config/main').get();if(s.exists)cfg={...s.data()}}catch(e){}
+  try{const s=await db.doc('config/questions').get();if(s.exists)custom=(s.data().items||[]).slice()}catch(e){}
+}
+// Встроенные вопросы (если не отключены) плюс свои из базы.
+function pool(){
+  const base=cfg.builtin===false?[]:Q;
+  return base.concat(custom.map(x=>[x.q,x.a,...(x.w||[])]));
+}
+function cardsStart(){cdeck=shuffle(pool());ci=0;flip=false;view('cards');paint()}
+function paint(){
+  const c=cdeck[ci];
+  $('cprog').textContent='Карточка '+(ci+1)+' из '+cdeck.length;
+  $('clbl').textContent=flip?'Ответ':'Вопрос';
+  $('ctxt').textContent=flip?c[1]:c[0];
+  $('card').classList.toggle('back',flip);
+}
+const step=d=>{ci=(ci+d+cdeck.length)%cdeck.length;flip=false;paint()};
+// Записи в базу идут по одной, чтобы не пересекались.
+function remoteSet(rec){
+  chain=chain.then(async()=>{
+    if(!db||!uid)return false;
+    try{
+      const ref=db.doc('attempts/'+uid),s=await ref.get(),o=s.exists?s.data():{};
+      await ref.set({...o,uid,fn:rec.fn,ln:rec.ln,works:{...(o.works||{}),[wkey()]:{...rec,title:workTitle(),at:Date.now()}}});
+      return true;
+    }catch(e){return false}
+  });
+  return chain;
+}
+async function findAttempt(){
+  if(db&&uid){
+    try{const s=await db.doc('attempts/'+uid).get();return {rec:s.exists?(s.data().works||{})[wkey()]||null:null}}catch(e){}
+  }
+  return {rec:store.get(lockKey(who))};
+}
+const ready=(async()=>{
+  try{
+    const u=await claude.use('user');
+    if(u){uid=await u.id();admin=await u.canEdit()}
+  }catch(e){}
+  try{db=await claude.use('db')}catch(e){}
+  await loadCfg();
+  $('cardsbtn').hidden=cfg.cards===false&&!admin;
+  setTitle();
+})();
 function start(){
-  deck=shuffle(Q).map(r=>({q:r[0],a:r[1],o:shuffle(r.slice(1))}));
+  deck=shuffle(pool()).map(r=>({q:r[0],a:r[1],o:shuffle(r.slice(1))}));
   i=0;score=0;log=[];
   view('quiz');
   show();
@@ -160,14 +276,18 @@ function pick(b,t){
   $('next').hidden=false;
   $('next').focus();
 }
-function end(){
-  const rec={fn:who.fn,ln:who.ln,done:true,score,total:deck.length,log};
+async function end(){
+  const rec={fn:who.fn,ln:who.ln,title:workTitle(),done:true,score,total:deck.length,log};
   store.set(lockKey(who),rec);
   showResult(rec,false);
+  if(!await remoteSet(rec)){
+    $('rnote').textContent='Результат сохранён только в этом браузере: преподаватель его не увидит.';
+    $('rnote').hidden=false;
+  }
 }
 function showResult(rec,repeat){
   view('result');
-  $('rwho').textContent=rec.fn+' '+rec.ln;
+  $('rwho').textContent=rec.fn+' '+rec.ln+', '+(rec.title||workTitle());
   const n=$('rnote'),r=$('review');
   r.innerHTML='';
   n.textContent='Попытка уже использована, пройти квиз повторно нельзя.';
@@ -178,17 +298,20 @@ function showResult(rec,repeat){
   }
   $('score').textContent='Результат: '+rec.score+' из '+rec.total;
   n.hidden=!repeat;
-  rec.log.forEach((x,k)=>{
+  renderLog(rec.log,r);
+}
+function renderLog(log,box){
+  log.forEach((x,k)=>{
     const d=document.createElement('div');d.className='row '+(x.ok?'ok':'bad');
     const b=document.createElement('b');b.textContent=(k+1)+'. '+x.q;
     const s=document.createElement('span');s.textContent=(x.ok?'✓ ':'✗ ')+'Ваш ответ: '+x.c;
     d.append(b,s);
     if(!x.ok){const g=document.createElement('span');g.className='good';g.textContent='Верный ответ: '+x.a;d.append(g)}
-    r.appendChild(d);
+    box.appendChild(d);
   });
 }
 $('next').onclick=()=>{i++;show()};
-$('gform').onsubmit=e=>{
+$('gform').onsubmit=async e=>{
   e.preventDefault();
   const fn=$('fn').value.trim().replace(/\s+/g,' '),ln=$('ln').value.trim().replace(/\s+/g,' ');
   const bad=[];
@@ -203,18 +326,178 @@ $('gform').onsubmit=e=>{
   }
   $('gerr').textContent='';
   who={fn,ln};
-  const old=store.get(lockKey(who));
-  if(old){showResult(old,true);return}
+  await ready;
+  await loadCfg();
+  if(cfg.open===false&&!admin){$('gerr').textContent='Квиз сейчас закрыт преподавателем.';return}
+  if(!pool().length){$('gerr').textContent='В квизе пока нет вопросов.';return}
+  const f=await findAttempt();
+  if(f.rec){showResult(f.rec,true);return}
   $('who').textContent=fn+' '+ln;
   view('confirm');
 };
 $('fix').onclick=()=>view('gate');
-$('go').onclick=()=>{
-  const old=store.get(lockKey(who));
-  if(old){showResult(old,true);return}
-  store.set(lockKey(who),{fn:who.fn,ln:who.ln,done:false});
+$('go').onclick=async()=>{
+  const f=await findAttempt();
+  if(f.rec){showResult(f.rec,true);return}
+  const rec={fn:who.fn,ln:who.ln,done:false};
+  store.set(lockKey(who),rec);
+  remoteSet(rec);
   start();
 };
+$('admbtn').onclick=openAdmin;
+$('aclose').onclick=()=>{unlocked=false;view('gate')};
+$('lcancel').onclick=()=>view('gate');
+function openAdmin(){
+  if(unlocked)return loadAdmin();
+  view('lock');
+  $('lerr').textContent='';$('lp').value='';
+  $('lp').focus();
+}
+$('lform').onsubmit=async e=>{
+  e.preventDefault();
+  const er=$('lerr');
+  try{
+    if(await sha(PW_SALT+$('lp').value)!==PW_HASH){
+      er.textContent='Неверный пароль.';
+      $('lp').value='';$('lp').focus();
+      return;
+    }
+    unlocked=true;
+    loadAdmin();
+  }catch(err){er.textContent='Не удалось проверить пароль.'}
+};
+$('wsave').onclick=async()=>{
+  const t=$('wt').value.trim().replace(/\s+/g,' ')||DEF;
+  try{
+    const n={...cfg,work:t};
+    await db.doc('config/main').set(n);
+    cfg=n;setTitle();
+    $('astat').textContent='Название сохранено. Для нового названия у каждого участника будет новая попытка.';
+  }catch(e){$('astat').textContent='Не удалось сохранить название.'}
+};
+async function resetAttempt(x){
+  const ref=db.doc('attempts/'+x.id),ws={...(x.d.works||{})};
+  delete ws[x.k];
+  if(x.d.works&&Object.keys(ws).length)await ref.set({...x.d,works:ws});
+  else await ref.delete();
+}
+// Таблицы результатов: по одной на каждую работу.
+function renderResults(docs,box,st){
+  const by={};
+  docs.forEach(({id,d})=>{
+    const ws=d.works||(d.done!==undefined?{legacy:{...d,title:DEF}}:{});
+    Object.entries(ws).forEach(([k,r])=>{
+      const t=r.title||DEF;
+      (by[t]=by[t]||[]).push({id,d,k,r,name:(r.ln||d.ln||'')+' '+(r.fn||d.fn||'')});
+    });
+  });
+  const titles=Object.keys(by).sort();
+  st.textContent=titles.length?'Работ: '+titles.length+', попыток: '+titles.reduce((n,t)=>n+by[t].length,0)+'.':'Результатов пока нет.';
+  titles.forEach(t=>{
+    const list=by[t].sort((a,b)=>a.name.localeCompare(b.name,'ru'));
+    const fin=list.filter(x=>x.r.done);
+    const avg=fin.length?Math.round(fin.reduce((s,x)=>s+x.r.score/x.r.total,0)/fin.length*100):null;
+    const h=document.createElement('h3');
+    h.textContent=t+' ('+list.length+(avg===null?'':', средний результат '+avg+'%')+')';
+    const wrap=document.createElement('div');wrap.className='tw';
+    const tb=document.createElement('table');
+    const hd=tb.createTHead().insertRow();
+    ['Ученик','Баллы','Дата',''].forEach(v=>{const th=document.createElement('th');th.textContent=v;hd.appendChild(th)});
+    const body=tb.createTBody();
+    list.forEach(x=>{
+      const tr=body.insertRow();
+      const pts=x.r.done?x.r.score+' из '+x.r.total+' ('+Math.round(x.r.score/x.r.total*100)+'%)':'не завершён';
+      const dt=x.r.at?new Date(x.r.at).toLocaleString('ru-RU',{dateStyle:'short',timeStyle:'short'}):'';
+      [x.name,pts,dt].forEach(v=>{tr.insertCell().textContent=v});
+      const ac=tr.insertCell();
+      const det=body.insertRow();det.hidden=true;
+      const dc=det.insertCell();dc.colSpan=4;
+      if(x.r.done&&x.r.log){
+        const sb=document.createElement('button');sb.className='ghost';sb.textContent='Сводка';
+        sb.onclick=()=>{if(!dc.firstChild)renderLog(x.r.log,dc);det.hidden=!det.hidden};
+        ac.appendChild(sb);
+      }
+      const rb=document.createElement('button');rb.className='ghost';rb.textContent='Сбросить';
+      rb.onclick=async()=>{
+        rb.disabled=true;
+        try{await resetAttempt(x);loadAdmin()}
+        catch(e){rb.disabled=false;st.textContent='Не удалось сбросить попытку.'}
+      };
+      ac.appendChild(rb);
+    });
+    wrap.appendChild(tb);
+    box.append(h,wrap);
+  });
+}
+$('card').onclick=()=>{flip=!flip;paint()};
+$('cprev').onclick=()=>step(-1);
+$('cnext').onclick=()=>step(1);
+$('cshuf').onclick=cardsStart;
+$('cexit').onclick=()=>view('gate');
+$('cardsbtn').onclick=async()=>{
+  await ready;await loadCfg();
+  if(cfg.cards===false&&!admin){$('gerr').textContent='Карточки сейчас недоступны.';return}
+  if(!pool().length){$('gerr').textContent='Пока нет вопросов.';return}
+  $('gerr').textContent='';
+  cardsStart();
+};
+[['open','open'],['cardson','cards'],['builtin','builtin']].forEach(([id,k])=>{
+  $(id).onchange=async()=>{
+    const v=$(id).checked;
+    try{const n={...cfg,[k]:v};await db.doc('config/main').set(n);cfg=n;$('astat').textContent='Настройка сохранена.';renderQs()}
+    catch(e){$(id).checked=!v;$('astat').textContent='Не удалось сохранить настройку.'}
+  };
+});
+async function saveQs(items){
+  await db.doc('config/questions').set({items});
+  custom=items;
+}
+function renderQs(){
+  $('qcount').textContent='Своих вопросов: '+custom.length+(cfg.builtin===false?'.':', встроенных: '+Q.length+'.');
+  const l=$('qlist');l.textContent='';
+  custom.forEach((x,k)=>{
+    const d=document.createElement('div');d.className='row';
+    const b=document.createElement('b');b.textContent=x.q;
+    const s=document.createElement('span');s.textContent='Верный ответ: '+x.a;
+    const t=document.createElement('button');t.className='ghost';t.textContent='Удалить';
+    t.onclick=async()=>{
+      t.disabled=true;
+      try{await saveQs(custom.filter((_,j)=>j!==k));renderQs()}
+      catch(e){t.disabled=false;$('qerr').textContent='Не удалось удалить вопрос.'}
+    };
+    d.append(b,s,t);l.appendChild(d);
+  });
+}
+$('qform').onsubmit=async e=>{
+  e.preventDefault();
+  const g=id=>$(id).value.trim().replace(/\s+/g,' ');
+  const q=g('nq'),a=g('na'),w=['nw1','nw2','nw3'].map(g).filter(Boolean);
+  const low=[a,...w].map(x=>x.toLowerCase());
+  const er=$('qerr');
+  if(!q||!a||!w.length){er.textContent='Заполните вопрос, верный ответ и хотя бы один неверный.';return}
+  if(new Set(low).size<low.length){er.textContent='Варианты ответа не должны повторяться.';return}
+  if(!db){er.textContent='База данных недоступна, вопрос не сохранится.';return}
+  try{await saveQs(custom.concat([{q,a,w}]));$('qform').reset();er.textContent='';renderQs()}
+  catch(err){er.textContent='Не удалось сохранить вопрос.'}
+};
+async function loadAdmin(){
+  if(!unlocked)return openAdmin();
+  view('admin');
+  const l=$('alist'),st=$('astat');
+  await loadCfg();
+  $('open').checked=cfg.open!==false;
+  $('cardson').checked=cfg.cards!==false;
+  $('builtin').checked=cfg.builtin!==false;
+  $('wt').value=workTitle();
+  renderQs();
+  l.textContent='';
+  if(!db){st.textContent='База данных недоступна в этом окне.';return}
+  st.textContent='Загрузка...';
+  try{
+    const q=await db.collection('attempts').get();
+    renderResults(q.docs.map(s=>({id:s.id,d:s.data()})),l,st);
+  }catch(e){st.textContent='Не удалось загрузить результаты.'}
+}
 view('gate');
 if(!store.set('quiz-probe',1)){
   $('gwarn').textContent='В этом браузере нельзя сохранить отметку о попытке, поэтому ограничение здесь не сработает.';
